@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      lang="en">
+<head th:replace="fragments/header :: head('Admin Dashboard')">
+  <title>Admin Dashboard - Theatre Management System</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="fragments/header :: header"></div>
+
+<main class="flex-grow-1 py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h2>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Admin Dashboard</li>
+        </ol>
+      </nav>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3 mb-4">
+        <div class="card dashboard-card users h-100">
+          <div class="card-body">
+            <i class="fas fa-users"></i>
+            <h3 th:text="${totalUsers}">0</h3>
+            <p class="mb-0">Total Users</p>
+          </div>
+          <div class="card-footer bg-transparent border-0">
+            <a th:href="@{/admin/users}" class="text-white text-decoration-none">
+              View Details <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-4">
+        <div class="card dashboard-card movies h-100">
+          <div class="card-body">
+            <i class="fas fa-film"></i>
+            <h3 th:text="${totalMovies}">0</h3>
+            <p class="mb-0">Total Movies</p>
+          </div>
+          <div class="card-footer bg-transparent border-0">
+            <a th:href="@{/admin/movies}" class="text-white text-decoration-none">
+              View Details <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-4">
+        <div class="card dashboard-card theatres h-100">
+          <div class="card-body">
+            <i class="fas fa-building"></i>
+            <h3 th:text="${totalTheatres}">0</h3>
+            <p class="mb-0">Total Theatres</p>
+          </div>
+          <div class="card-footer bg-transparent border-0">
+            <a th:href="@{/admin/theatres}" class="text-white text-decoration-none">
+              View Details <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3 mb-4">
+        <div class="card dashboard-card bookings h-100">
+          <div class="card-body">
+            <i class="fas fa-ticket-alt"></i>
+            <h3 th:text="${totalBookings}">0</h3>
+            <p class="mb-0">Total Bookings</p>
+          </div>
+          <div class="card-footer bg-transparent border-0">
+            <a th:href="@{/admin/bookings}" class="text-white text-decoration-none">
+              View Details <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Booking Status Stats -->
+    <div class="card shadow-sm mb-4">
+      <div class="card-header bg-white">
+        <h5 class="mb-0">Booking Statistics</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="text-center">
+              <h2 class="text-success" th:text="${completedBookings}">0</h2>
+              <p class="mb-0">Completed Bookings</p>
+            </div>
+          </div>
+          <div class="col-md-4 mb-3 mb-md-0">
+            <div class="text-center">
+              <h2 class="text-warning" th:text="${pendingBookings}">0</h2>
+              <p class="mb-0">Pending Bookings</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center">
+              <h2 class="text-danger" th:text="${cancelledBookings}">0</h2>
+              <p class="mb-0">Cancelled Bookings</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-5">
+      <div class="col-12">
+        <div class="card shadow-sm">
+          <div class="card-header bg-white">
+            <h5 class="mb-0">Quick Actions</h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <a th:href="@{/admin/movies/create}" class="btn btn-outline-primary w-100">
+                  <i class="fas fa-plus-circle me-2"></i>Add New Movie
+                </a>
+              </div>
+              <div class="col-md-3 mb-3">
+                <a th:href="@{/admin/theatres/create}" class="btn btn-outline-primary w-100">
+                  <i class="fas fa-plus-circle me-2"></i>Add New Theatre
+                </a>
+              </div>
+              <div class="col-md-3 mb-3">
+                <a th:href="@{/admin/screenings/create}" class="btn btn-outline-primary w-100">
+                  <i class="fas fa-plus-circle me-2"></i>Add New Screening
+                </a>
+              </div>
+              <div class="col-md-3 mb-3">
+                <a th:href="@{/admin/bookings}" class="btn btn-outline-primary w-100">
+                  <i class="fas fa-ticket-alt me-2"></i>Manage Bookings
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity Sections -->
+    <div class="row">
+      <!-- Recent Bookings -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Recent Bookings</h5>
+            <a th:href="@{/admin/bookings}" class="btn btn-sm btn-outline-primary">View All</a>
+          </div>
+          <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+              <!-- If no bookings exist -->
+              <div class="list-group-item text-center py-4" th:if="${recentBookings.empty}">
+                <p class="text-muted mb-0">No bookings available</p>
+              </div>
+
+              <!-- Display actual recent bookings -->
+              <div class="list-group-item" th:each="booking : ${recentBookings}" th:if="${!recentBookings.empty}">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">
+                    <a th:href="@{/admin/bookings/{id}(id=${booking.id})}" class="text-decoration-none" th:text="${'Booking #' + booking.bookingNumber}">
+                      Booking #BK12345
+                    </a>
+                  </h6>
+                  <small class="text-muted" th:text="${#temporals.format(booking.bookingTime, 'HH:mm')}">3 mins ago</small>
+                </div>
+                <p class="mb-1">User: <span th:text="${booking.username}">John Doe</span></p>
+                <small class="text-muted">
+                  Movie: <span th:text="${booking.movieTitle}">Inception</span>,
+                  Seats: <span th:text="${#strings.arrayJoin(booking.bookedSeats, ', ')}">A1, A2</span>
+                </small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- New Users -->
+      <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">New Users</h5>
+            <a th:href="@{/admin/users}" class="btn btn-sm btn-outline-primary">View All</a>
+          </div>
+          <div class="card-body p-0">
+            <div class="list-group list-group-flush">
+              <!-- If no users exist -->
+              <div class="list-group-item text-center py-4" th:if="${newUsers.empty}">
+                <p class="text-muted mb-0">No users available</p>
+              </div>
+
+              <!-- Display actual new users -->
+              <div class="list-group-item" th:each="user : ${newUsers}" th:if="${!newUsers.empty}">
+                <div class="d-flex w-100 justify-content-between">
+                  <h6 class="mb-1">
+                    <a th:href="@{/admin/users/{id}(id=${user.id})}" class="text-decoration-none" th:text="${user.firstName + ' ' + user.lastName}">
+                      User Name
+                    </a>
+                  </h6>
+                  <small class="text-muted">User ID: <span th:text="${user.id}">123</span></small>
+                </div>
+                <p class="mb-1" th:text="${user.email}">user@example.com</p>
+                <small class="text-muted">Role: <span th:text="${user.role}">User</span></small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<style>
+  /* Dashboard Card Styles */
+  .dashboard-card {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+  }
+
+  .dashboard-card i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+  }
+
+  .dashboard-card.users {
+    background: linear-gradient(45deg, #4e73df, #224abe);
+  }
+
+  .dashboard-card.movies {
+    background: linear-gradient(45deg, #1cc88a, #169969);
+  }
+
+  .dashboard-card.theatres {
+    background: linear-gradient(45deg, #36b9cc, #258391);
+  }
+
+  .dashboard-card.bookings {
+    background: linear-gradient(45deg, #f6c23e, #dda20a);
+  }
+</style>
+</body>
+</html>
